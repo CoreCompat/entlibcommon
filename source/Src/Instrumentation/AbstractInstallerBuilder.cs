@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration.Install;
 using System.Security;
+using System.Reflection;
+using System.Linq;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
 {
@@ -65,8 +67,8 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
         {
             if (instrumentedType == null) throw new ArgumentNullException("instrumentedType");
 
-            object[] attributesFound = instrumentedType.GetCustomAttributes(attributeType, false);
-            return attributesFound.Length == 0 ? false : true;
+            var attributesFound = instrumentedType.GetTypeInfo().GetCustomAttributes(attributeType, false);
+            return attributesFound.Any();
         }
 
         /// <summary>

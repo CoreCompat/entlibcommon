@@ -2,13 +2,18 @@
 
 using System.Configuration;
 using System.Reflection;
+#if !CORECLR
 using System.Runtime.ConstrainedExecution;
+#endif
 using System.Runtime.InteropServices;
 using System.Security;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design;
 
+#if !CORECLR
 [assembly: ReliabilityContract(Consistency.WillNotCorruptState, Cer.None)]
+#endif
+
 [assembly: AssemblyTitle("Enterprise Library Shared Library")]
 [assembly: AssemblyDescription("Enterprise Library Shared Library")]
 [assembly: AssemblyVersion("6.0.0.0")]

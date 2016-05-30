@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Configuration.Install;
 using System.Diagnostics;
 using System.Security;
+using System.Reflection;
+using System.Linq;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
 {
@@ -39,7 +41,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
             foreach (Type instrumentedType in instrumentedTypes)
             {
                 EventLogDefinitionAttribute attribute
-                    = (EventLogDefinitionAttribute)instrumentedType.GetCustomAttributes(typeof(EventLogDefinitionAttribute), false)[0];
+                    = (EventLogDefinitionAttribute)instrumentedType.GetTypeInfo().GetCustomAttributes(typeof(EventLogDefinitionAttribute), false).First();
 
                 EventLogInstaller installer = new EventLogInstaller();
                 installer.Log = attribute.LogName;

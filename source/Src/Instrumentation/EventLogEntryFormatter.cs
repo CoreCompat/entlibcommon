@@ -102,7 +102,11 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
 
         private static string GetApplicationName()
         {
+#if !CORECLR
             return AppDomain.CurrentDomain.FriendlyName;
+#else
+            return string.Empty;
+#endif
         }
 
         private string EntryTemplate

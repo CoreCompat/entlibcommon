@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 
+#if !CORECLR
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
 {
     /// <summary>
@@ -155,3 +156,4 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
         }
     }
 }
+#endif

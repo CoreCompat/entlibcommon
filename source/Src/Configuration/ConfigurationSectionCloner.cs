@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
 {
@@ -75,9 +76,9 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
                 {
                     targetProperty.Value = ((ICloneableConfigurationElement)property.Value).CreateFullClone();
                 }
-                if (typeof(ConfigurationElement).IsAssignableFrom(property.Type) && TypeDescriptor.GetAttributes(property.Type).OfType<CloneableConfigurationElementTypeAttribute>().Any())
+                if (typeof(ConfigurationElement).IsAssignableFrom(property.Type) && property.Type.GetTypeInfo().GetCustomAttributes<CloneableConfigurationElementTypeAttribute>().Any())
                 {
-                    CloneableConfigurationElementTypeAttribute cloneableConfigurationElementTypeAttribute = TypeDescriptor.GetAttributes(property.Type).OfType<CloneableConfigurationElementTypeAttribute>().First();
+                    CloneableConfigurationElementTypeAttribute cloneableConfigurationElementTypeAttribute = property.Type.GetTypeInfo().GetCustomAttributes<CloneableConfigurationElementTypeAttribute>().First();
                     ICloneableConfigurationElement cloneable = (ICloneableConfigurationElement)Activator.CreateInstance(cloneableConfigurationElementTypeAttribute.CloneableConfigurationElementType, property.Value);
 
                     targetProperty.Value = cloneable.CreateFullClone();
@@ -142,9 +143,9 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
             {
                 return ((ICloneableConfigurationElement)sourceElement).CreateFullClone();
             }
-            if (TypeDescriptor.GetAttributes(sourceElement).OfType<CloneableConfigurationElementTypeAttribute>().Any())
+            if (sourceElement.GetType().GetTypeInfo().GetCustomAttributes<CloneableConfigurationElementTypeAttribute>().Any())
             {
-                CloneableConfigurationElementTypeAttribute cloneableConfigurationElementTypeAttribute = TypeDescriptor.GetAttributes(sourceElement).OfType<CloneableConfigurationElementTypeAttribute>().First();
+                CloneableConfigurationElementTypeAttribute cloneableConfigurationElementTypeAttribute = sourceElement.GetType().GetTypeInfo().GetCustomAttributes<CloneableConfigurationElementTypeAttribute>().First();
                 ICloneableConfigurationElement cloneable = (ICloneableConfigurationElement)Activator.CreateInstance(cloneableConfigurationElementTypeAttribute.CloneableConfigurationElementType, sourceElement);
 
                 return cloneable.CreateFullClone();

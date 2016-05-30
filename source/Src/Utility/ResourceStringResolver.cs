@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Reflection;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Utility
 {
@@ -60,7 +61,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Utility
                     = ResourceStringLoader.LoadString(
                         this.resourceType.FullName,
                         this.resourceName,
-                        this.resourceType.Assembly);
+                        this.resourceType.GetTypeInfo().Assembly);
             }
             else
             {

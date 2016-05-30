@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+#if !CORECLR
 using System;
 using System.Collections;
 using System.Configuration.Install;
@@ -42,7 +43,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
         private void PrepareInstaller()
         {
             string assemblyName = this.Context.Parameters["assemblypath"];
-            Type[] types = Assembly.LoadFile(assemblyName).GetTypes();
+            Type[] types = Assembly.LoadFrom(assemblyName).GetTypes();
 
             TInstallerBuilder builder = (TInstallerBuilder)Activator.CreateInstance(typeof(TInstallerBuilder), new object[] { types });
 
@@ -50,3 +51,4 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Instrumentation
         }
     }
 }
+#endif

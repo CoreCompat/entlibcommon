@@ -3,7 +3,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Timers;
+using System.Threading;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Storage;
 using Microsoft.Practices.EnterpriseLibrary.Common.Properties;
 
@@ -22,7 +22,6 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Storage
 
         private EventHandlerList eventHandlers = new EventHandlerList();
         private DateTime lastWriteTime;
-        private ElapsedEventHandler pollTimerHandler;
         private Timer pollTimer;
         private bool polling = false;
 
@@ -62,8 +61,10 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Storage
 
         }
 
-        void pollTimer_Elapsed(object sender, ElapsedEventArgs e)
+        void pollTimer_Elapsed(object state)
         {
+            pollTimer.Change(Timeout.Infinite, Timeout.Infinite);
+
             try
             {
                
@@ -90,7 +91,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Storage
                 if (polling)
                 {
                     //auto reset is turned off, therefore we need to restart after the work has been done.
-                    pollTimer.Start();
+                    pollTimer.Change(0, pollDelayInMilliseconds);
                 }
             }
         }
@@ -136,17 +137,13 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Storage
             
             if (pollTimer == null)
             {
-                pollTimer = new Timer();
-                pollTimer.Interval = pollDelayInMilliseconds;
-                pollTimer.AutoReset = false;
-
-                pollTimerHandler = new ElapsedEventHandler(pollTimer_Elapsed);
-                pollTimer.Elapsed += pollTimerHandler;
+                var pollTimerHandler = new TimerCallback(pollTimer_Elapsed);
+                pollTimer = new Timer(pollTimerHandler, null, Timeout.Infinite, Timeout.Infinite);
 
                 lastWriteTime = GetCurrentLastWriteTime();
             }
             polling = true;
-            pollTimer.Start();
+            pollTimer.Change(0, pollDelayInMilliseconds);
         }
 
         /// <summary>
@@ -157,7 +154,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Storage
             polling = false;
             if (pollTimer != null)
             {
-                pollTimer.Stop();
+                pollTimer.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
 
@@ -196,7 +193,6 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Storage
 
                 if (pollTimer != null)
                 {
-                    pollTimer.Elapsed -= pollTimerHandler;
                     pollTimer.Dispose();
                 }
             }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Utility
 {
@@ -23,21 +24,25 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Utility
             if (parentType == null) throw new ArgumentNullException("parentType");
             if (rootType == null) throw new ArgumentNullException("rootType");
 
-            if (!parentType.IsGenericType) return null;
+            var parentTypeInfo = parentType.GetTypeInfo();
+            var rootTypeInfo = rootType.GetTypeInfo();
 
-            Type currentType = rootType;
-            while (currentType != typeof(object))
+            if (!parentTypeInfo.IsGenericType) return null;
+
+            var currentTypeInfo = rootTypeInfo;
+
+            while (currentTypeInfo.UnderlyingSystemType != typeof(object))
             {
-                if (!currentType.IsGenericType)
+                if (!currentTypeInfo.IsGenericType)
                 {
-                    currentType = currentType.BaseType;
+                    currentTypeInfo = currentTypeInfo.BaseType.GetTypeInfo();
                     continue;
                 }
 
-                var genericType = currentType.GetGenericTypeDefinition();
-                if (genericType == parentType) return currentType;
+                var genericType = currentTypeInfo.GetGenericTypeDefinition();
+                if (genericType == parentType) return currentTypeInfo.UnderlyingSystemType;
 
-                currentType = currentType.BaseType;
+                currentTypeInfo = currentTypeInfo.BaseType.GetTypeInfo();
             }
 
             return null;

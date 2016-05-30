@@ -1,5 +1,4 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +56,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design.Vali
             return Activator.CreateInstance(validatorType);
         }
 
+#if !CORECLR
         /// <summary>
         /// When implemented in a derived class, gets a unique identifier for this <see cref="T:System.Attribute"/>.
         /// </summary>
@@ -71,6 +71,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design.Vali
                 return this.validatorType;
             }
         }
+#endif
     }
 
     /// <summary>
@@ -121,6 +122,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design.Vali
             return Activator.CreateInstance(validatorType);
         }
 
+#if !CORECLR
         /// <summary>
         /// When implemented in a derived class, gets a unique identifier for this <see cref="T:System.Attribute"/>.
         /// </summary>
@@ -135,5 +137,6 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design.Vali
                 return this.validatorTypeName;
             }
         }
+#endif
     }
 }

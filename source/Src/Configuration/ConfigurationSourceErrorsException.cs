@@ -55,6 +55,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
         {
         }
 
+#if !CORECLR
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurationSourceErrorsException"/> class.
         /// </summary>
@@ -65,5 +66,6 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
         {
 
         }
+#endif
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design
 {
@@ -24,7 +25,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design
         {
             if (null == resourceType) throw new ArgumentNullException("resourceType");
 
-            this.filter = ResourceStringLoader.LoadString(resourceType.FullName, resourceKey, resourceType.Assembly);
+            this.filter = ResourceStringLoader.LoadString(resourceType.FullName, resourceKey, resourceType.GetTypeInfo().Assembly);
             this.CheckFileExists = true;
         }
 

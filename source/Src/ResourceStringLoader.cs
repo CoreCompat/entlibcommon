@@ -11,6 +11,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common
     /// </summary>
     public static class ResourceStringLoader
     {
+#if !CORECLR
         /// <summary>
         /// Load a resource string.
         /// </summary>
@@ -21,6 +22,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common
         {
             return LoadString(baseName, resourceName, Assembly.GetCallingAssembly());
         }
+#endif
 
         /// <summary>
         /// Load a resource string.
@@ -39,7 +41,10 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common
 
             if (null != asm) value = LoadAssemblyString(asm, baseName, resourceName);
             if (null == value && null != asm) value = SearchForResource(asm, resourceName);
+
+#if !CORECLR
             if (null == value) value = LoadAssemblyString(Assembly.GetExecutingAssembly(), baseName, resourceName);
+#endif
             if (null == value) return string.Empty;
 
             return value;

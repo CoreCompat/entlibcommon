@@ -16,6 +16,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
             : base(typeof(T))
         { }
 
+#if !CORECLR
         /// <summary>
         /// Indicates where the standard values are exclusive.
         /// </summary>
@@ -23,5 +24,6 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
         {
             return true;
         }
+#endif
     }
 }

@@ -3,6 +3,7 @@
 using System;
 using System.ComponentModel;
 using System.Resources;
+using System.Reflection;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design
 {
@@ -49,7 +50,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design
         /// <returns>The localized string.</returns>
         protected override string GetLocalizedString(string value)
         {
-            return ResourceStringLoader.LoadString(resourceType.FullName, value, resourceType.Assembly);
+            return ResourceStringLoader.LoadString(resourceType.FullName, value, resourceType.GetTypeInfo().Assembly);
         }
 
         /// <summary>

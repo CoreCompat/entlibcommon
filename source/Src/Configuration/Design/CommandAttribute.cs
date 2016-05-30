@@ -133,6 +133,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design
         /// </example>
         public string KeyGesture { get; set; }
 
+#if !CORECLR
         /// <summary>
         /// When implemented in a derived class, gets a unique identifier for this <see cref="T:System.Attribute"/>.
         /// </summary>
@@ -152,7 +153,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design
                 return Replace;
             }
         }
-
+#endif
     }
 
     /// <summary>

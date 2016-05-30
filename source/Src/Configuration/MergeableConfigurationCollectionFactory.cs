@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Reflection;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration.Design;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
@@ -35,7 +36,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
                 return new MergeableKeyValueConfigurationCollection((KeyValueConfigurationCollection)collection);
             }
 
-            var mergeableConfigurationCollectionAttribute = TypeDescriptor.GetAttributes(collection).OfType<MergeableConfigurationCollectionTypeAttribute>().FirstOrDefault();
+            var mergeableConfigurationCollectionAttribute = collection.GetType().GetTypeInfo().GetCustomAttributes<MergeableConfigurationCollectionTypeAttribute>().FirstOrDefault();
             if (mergeableConfigurationCollectionAttribute != null)
             {
                 return Activator.CreateInstance(mergeableConfigurationCollectionAttribute.MergeableConfigurationCollectionType, collection) as IMergeableConfigurationElementCollection;

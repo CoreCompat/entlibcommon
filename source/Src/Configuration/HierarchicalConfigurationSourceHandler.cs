@@ -8,6 +8,7 @@ using System.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Common.Properties;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Reflection;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
 {

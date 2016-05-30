@@ -185,6 +185,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
 
         private static string SafeGetCurrentConfigurationFile()
         {
+#if !CORECLR
             try
             {
                 return AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
@@ -193,6 +194,9 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
             {
                 return null;
             }
+#else
+            return null;
+#endif
         }
     }
 }

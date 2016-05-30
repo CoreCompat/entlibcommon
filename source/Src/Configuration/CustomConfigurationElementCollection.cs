@@ -7,6 +7,7 @@ using System.Text;
 using System.Configuration;
 using System.Globalization;
 using System.Xml;
+using System.Reflection;
 using Microsoft.Practices.EnterpriseLibrary.Common.Properties;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
@@ -41,7 +42,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
                             throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentCulture, Resources.ConfigurationSourceInvalidTypeErrorMessage, reader.Value, reader[0]));
                         }
 
-                        Attribute attribute = Attribute.GetCustomAttribute(providerType, typeof(ConfigurationElementTypeAttribute));
+                        Attribute attribute = providerType.GetTypeInfo().GetCustomAttribute(typeof(ConfigurationElementTypeAttribute));
                         if (attribute == null)
                         {
                             throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentCulture, Resources.ExceptionNoConfigurationElementAttribute, providerType.Name));

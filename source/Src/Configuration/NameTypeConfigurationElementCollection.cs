@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Xml;
 using Microsoft.Practices.EnterpriseLibrary.Common.Properties;
 using System.Globalization;
+using System.Reflection;
 
 namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
 {
@@ -40,7 +41,7 @@ namespace Microsoft.Practices.EnterpriseLibrary.Common.Configuration
                             break;
                         }
 
-                        Attribute attribute = Attribute.GetCustomAttribute(providerType, typeof(ConfigurationElementTypeAttribute));
+                        Attribute attribute = providerType.GetTypeInfo().GetCustomAttribute(typeof(ConfigurationElementTypeAttribute));
                         if (attribute == null)
                         {
                             throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentCulture, Resources.ExceptionNoConfigurationElementAttribute, providerType.Name));

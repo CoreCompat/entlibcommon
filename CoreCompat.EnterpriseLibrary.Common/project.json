@@ -1,0 +1,56 @@
+{
+  "version": "6.0.1304-*",
+
+  "authors": [ "Microsoft" ],
+  "title": "Enterprise Library - Common Infrastructure for .NET Core",
+  "description": "The Enterprise Library Common assembly contains elements that are shared among multiple application blocks. By supplying a set of commonly used functions to all the application blocks, the Common assembly reduces the dependency of one application block on another.",
+
+  "packOptions": {
+    "licenseUrl": "https://github.com/CoreCompat/entlibcommon/blob/master/LICENSE.txt",
+    "owners": [ "quamotion" ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/CoreCompat/entlibcommon/"
+    },
+  },
+
+  "dependencies": {
+  },
+
+  "buildOptions": {
+    "keyFile": "CoreCompat.EnterpriseLibrary.Common.snk",
+    "strongName": true,
+    "compile": {
+      "include": [
+        "../Source/Src/**/*.cs"
+      ]
+    }
+  },
+
+  "frameworks": {
+    "netstandard1.5": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.5.0-rc2-24027",
+        "System.ComponentModel": "4.0.1-rc2-24027",
+        "CoreCompat.System.Configuration": "4.2.3-r4",
+        "CoreCompat.System.Configuration.Install": "4.2.3-r1",
+        "System.Reflection.TypeExtensions": "4.1.0-rc2-24027"
+      },
+      "buildOptions": {
+        "define": [ "CORECLR" ]
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
+        "System.ComponentModel": "4.0.0.0",
+        "System.Configuration": "4.0.0.0",
+        "System.Configuration.Install": "4.0.0.0",
+        "System.Xml": "4.0.0.0"
+      }
+    }
+  },
+  "runtimes": {
+    "win7-x64": { }
+  }
+}
